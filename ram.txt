@@ -1,0 +1,67 @@
+ram.txt
+Created Thu Jun  1 16:02:27 AKDT 2017
+Copyright (C) 2017 by Raymond E. Marcil <marcilr@gmail.com>
+
+
+ECC
+
+
+The general rule of thumb here is to have 5 GB of memory
+for every 1TB of deduplicated data.  That said, there may
+be instances where more is required, but you will need to
+plan to meet the maximum potential memory requirements to
+avoid problems down the road.  To get a more precise
+estimate of the required memory for deduplication do the
+following: run the 'zdb -b (pool name); command for the
+desired pool to get an idea of the number of blocks
+required, then multiply the 'bp count' by 320 bytes to
+get your required memory. If it's less than 5GB, still
+use the 5GB per terabyte of storage rule. If it's higher,
+go with that number per terabyte.  
+--www.freenas.org/blog/freenas-worst-practices/
+
+
+ECC RAM or Not?
+===============
+This is probably the most contested issue surrounding ZFS
+(the filesystem that FreeNAS uses to store your data) today.
+I've run ZFS with ECC RAM and I've run it without.  I've
+been involved in the FreeNAS community for many years and
+have seen people argue that ECC is required and others
+argue that it is a pointless waste of money.  ZFS does
+something no other filesystem you'll have available to
+you does: it checksums your data, and it checksums the
+metadata used by ZFS, and it checksums the checksums.  If
+your data is corrupted in memory before it is written,
+ZFS will happily write (and checksum) the corrupted data.
+Additionally, ZFS has no pre-mount consistency checker or
+tool that can repair filesystem damage.  This is very nice
+when dealing with large storage arrays as a 64TB pool can
+be mounted in seconds, even after a bad shutdown.  However
+if a non-ECC memory module goes haywire, it can cause
+irreparable damage to your ZFS pool that can cause complete
+loss of the storage.  For this reason, I highly recommend
+the use of ECC RAM with "mission-critical" ZFS.  Systems
+with ECC RAM will correct single bit errors on the fly,
+and will halt the system before they can do any damage to
+the array if multiple bit errors are detected.  If it's
+imperative that your ZFS based system must always be
+available, ECC RAM is a requirement.  If it's only some
+level of annoying (slightly, moderately that you need to
+restore your ZFS system from backups, non-ECC RAM will fit
+the bill.
+--freenas.org/
+
+
+Links
+=====
+A Complete Guide to FreeNAS Hardware Design,
+Part I: Purpose and Best Practices
+Feb 3, 2015 | FreeNAS | 18 comments
+http://www.freenas.org/blog/a-complete-guide-to-freenas-hardware-design-part-i-purpose-and-best-prac
+tices/
+
+FreeNAS: A Worst Practices Guide
+Sep 30, 2015 | FreeNAS | 7 comments
+http://www.freenas.org/blog/freenas-worst-practices/
+
