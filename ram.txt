@@ -3,7 +3,7 @@ Created Thu Jun  1 16:02:27 AKDT 2017
 Copyright (C) 2017 by Raymond E. Marcil <marcilr@gmail.com>
 
 
-ECC
+Random-access memory
 
 
 The general rule of thumb here is to have 5 GB of memory
@@ -65,3 +65,6 @@ FreeNAS: A Worst Practices Guide
 Sep 30, 2015 | FreeNAS | 7 comments
 http://www.freenas.org/blog/freenas-worst-practices/
 
+Random-access memory
+From Wikipedia, the free encyclopedia
+https://en.wikipedia.org/wiki/Random-access_memory
